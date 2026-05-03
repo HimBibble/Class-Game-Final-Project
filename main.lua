@@ -46,4 +46,11 @@ end
 function love.draw()
 	love.graphics.print(mouseX, 0, 0)
 	love.graphics.print(mouseY, 0, 25)
+	
+	for i, row in ipairs(mainGrid) do
+		for j, tile in ipairs(row) do
+			love.graphics.rectangle("line", j * cellSize, i * cellSize, cellSize, cellSize)
+		end
+	end
+	
 end
