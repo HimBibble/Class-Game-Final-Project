@@ -33,9 +33,17 @@ function love.load()
 	mainGrid = createGrid(gridCols, gridRows)
 end
 
-function love.update()
+function love.update(dt)
+	mouseX, mouseY = love.mouse.getPosition()
+	
 	gridUpdate = createGrid(gridCols, gridRows)
 	
 	
 	mainGrid = gridUpdate
+	
+end
+
+function love.draw()
+	love.graphics.print(mouseX, 0, 0)
+	love.graphics.print(mouseY, 0, 25)
 end
