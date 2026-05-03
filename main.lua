@@ -13,7 +13,7 @@ local function createGrid(columns, rows)
 		grid[x] = {}
 		for y = 1, rows do
 			grid[x][y] = 0
-		end
+		end 
 	end
 	--Returns the created grid
 	return grid
@@ -40,7 +40,7 @@ function love.load()
 	--Create starting grid
 	currentGrid = createGrid(gridCols, gridRows)
 	currentGrid[1][1] = 1
-	currentGrid[1][2] = 1
+	currentGrid[5][1] = 1
 end
 
 function love.update(dt)
@@ -87,7 +87,6 @@ function love.draw()
 	--Render Particles
 	for x = 1, gridCols do
 		for y = 1, gridRows do
-		love.graphics.rectangle("line", (x-1) * cellSize, (y-1) * cellSize, cellSize, cellSize)
 			if currentGrid[x][y] == 1 then
 				love.graphics.setColor(255, 0, 0)
 				
