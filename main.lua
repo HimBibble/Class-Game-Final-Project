@@ -1,6 +1,6 @@
-local cellSize = 12
+local cellSize = 10
 
-local mainGrid, gridUpdate, gridRows, gridCols
+local currentGrid, gridUpdate, gridRows, gridCols
 
 math.randomseed(os.time())
 
@@ -19,6 +19,14 @@ local function createGrid(columns, rows)
 	return grid
 end
 
+local function gridXBounding(x)
+	return x > 0 and x <= gridCols
+end
+
+local function gridYBounding(y)
+	return y > 0 and y <= gridRows
+end
+
 function love.load()
 
 	--Make variables of canvas size to work with
@@ -30,26 +38,61 @@ function love.load()
 	gridCols = canvasHeight / cellSize
 	
 	--Create starting grid
-	mainGrid = createGrid(gridCols, gridRows)
+	currentGrid = createGrid(gridCols, gridRows)
+	currentGrid[1][1] = 1
+	currentGrid[1][2] = 1
 end
 
 function love.update(dt)
 	mouseX, mouseY = love.mouse.getPosition()
 	
+	--Create a new grid to push to the main grid for updates
 	gridUpdate = createGrid(gridCols, gridRows)
 	
+
 	
-	mainGrid = gridUpdate
+	for x = 1, gridCols do
+		for y = 1, gridRows do
+			local state = currentGrid[x][y]
+			
+			if state == 1 then
+				local below = currentGrid[x][y + 1]
+				
+				if below == 0 then
+					gridUpdate[x][y+1] = state
+					gridUpdate[x][y] = 0
+				end
+			end
+		end
+	end
+	--Updates the main grid to the new grid
+	currentGrid = gridUpdate
 	
 end
 
 function love.draw()
+	--Print mouse coords for debugging purposes
 	love.graphics.print(mouseX, 0, 0)
-	love.graphics.print(mouseY, 0, 25)
+	love.graphics.print(mouseY, 0, 10)
 	
-	for i, row in ipairs(mainGrid) do
+	
+	--Render visual grid for debugging
+	for i, row in ipairs(currentGrid) do
 		for j, tile in ipairs(row) do
-			love.graphics.rectangle("line", j * cellSize, i * cellSize, cellSize, cellSize)
+			love.graphics.setColor(255, 255, 255)
+			love.graphics.rectangle("line", (j - 1) * cellSize, (i - 1) * cellSize, cellSize, cellSize)
+		end
+	end
+	
+	--Render Particles
+	for x = 1, gridCols do
+		for y = 1, gridRows do
+		love.graphics.rectangle("line", (x-1) * cellSize, (y-1) * cellSize, cellSize, cellSize)
+			if currentGrid[x][y] == 1 then
+				love.graphics.setColor(255, 0, 0)
+				
+				love.graphics.rectangle("fill", (x-1) * cellSize, (y-1) * cellSize, cellSize, cellSize)
+			end
 		end
 	end
 	
