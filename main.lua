@@ -1,3 +1,5 @@
+Object = require("classic")
+
 local cellSize = 20
 
 local currentGrid, gridUpdate, gridRows, gridCols
@@ -49,12 +51,12 @@ function love.update(dt)
 	--Create a new grid to push to the main grid for updates
 	gridUpdate = createGrid(gridCols, gridRows)
 	
+	--For handling mouse snapping to grid
+	local placeColumn = math.floor(mouseX / cellSize) + 1
+	local placeRow = math.floor(mouseY / cellSize) + 1
 	
-	if love.mouse.isDown(1) then
-		local placeColumn = math.floor(mouseX / cellSize) + 1
-		local placeRow = math.floor(mouseY / cellSize) + 1
-		gridUpdate[placeColumn][placeRow] = 1
-	end
+	
+	
 	
 	
 	
@@ -76,6 +78,14 @@ function love.update(dt)
 			end
 		end
 	end
+	
+	if love.mouse.isDown(1) then
+		gridUpdate[placeColumn][placeRow] = 1
+		
+	end
+	if love.mouse.isDown(2) then
+		gridUpdate[placeColumn][placeRow] = 0
+	end
 	--Updates the main grid to the new grid
 	currentGrid = gridUpdate
 	
@@ -89,6 +99,8 @@ function love.draw()
 	love.graphics.print(mouseX, 0, 0)
 	love.graphics.print(mouseY, 0, 10)
 	
+	
+	love.graphics.print(currentGrid[1][1], 50)
 	
 	--Render visual grid for debugging
 	for i, row in ipairs(currentGrid) do
