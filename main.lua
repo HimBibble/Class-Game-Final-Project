@@ -39,10 +39,7 @@ function love.load()
 	
 	--Create starting grid
 	currentGrid = createGrid(gridCols, gridRows)
-	currentGrid[1][1] = 1
-	currentGrid[5][1] = 1
-	currentGrid[5][3] = 1
-	currentGrid[5][10] = 1
+	
 end
 
 function love.update(dt)
