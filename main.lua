@@ -1,4 +1,4 @@
-local cellSize = 10
+local cellSize = 20
 
 local currentGrid, gridUpdate, gridRows, gridCols
 
@@ -41,16 +41,28 @@ function love.load()
 	currentGrid = createGrid(gridCols, gridRows)
 	currentGrid[1][1] = 1
 	currentGrid[5][1] = 1
+	currentGrid[5][3] = 1
+	currentGrid[5][10] = 1
 end
 
 function love.update(dt)
+	--Mouse stuff for debugging
 	mouseX, mouseY = love.mouse.getPosition()
 	
 	--Create a new grid to push to the main grid for updates
 	gridUpdate = createGrid(gridCols, gridRows)
 	
-
 	
+	if love.mouse.isDown(1) then
+		local placeColumn = math.floor(mouseX / cellSize) + 1
+		local placeRow = math.floor(mouseY / cellSize) + 1
+		gridUpdate[placeColumn][placeRow] = 1
+	end
+	
+	
+	
+	
+	--Update grid with particle movement
 	for x = 1, gridCols do
 		for y = 1, gridRows do
 			local state = currentGrid[x][y]
@@ -58,9 +70,11 @@ function love.update(dt)
 			if state == 1 then
 				local below = currentGrid[x][y + 1]
 				
-				if below == 0 then
+				if below == 0 and y < gridCols then
 					gridUpdate[x][y+1] = state
 					gridUpdate[x][y] = 0
+				else
+					gridUpdate[x][y] = 1
 				end
 			end
 		end
@@ -70,8 +84,11 @@ function love.update(dt)
 	
 end
 
+
+
 function love.draw()
 	--Print mouse coords for debugging purposes
+	love.graphics.setColor(255, 255, 0)
 	love.graphics.print(mouseX, 0, 0)
 	love.graphics.print(mouseY, 0, 10)
 	
@@ -88,7 +105,7 @@ function love.draw()
 	for x = 1, gridCols do
 		for y = 1, gridRows do
 			if currentGrid[x][y] == 1 then
-				love.graphics.setColor(255, 0, 0)
+				love.graphics.setColor(255, 255, 0)
 				
 				love.graphics.rectangle("fill", (x-1) * cellSize, (y-1) * cellSize, cellSize, cellSize)
 			end
