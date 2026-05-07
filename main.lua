@@ -1,5 +1,7 @@
 Object = require("classic")
 
+require "particle"
+
 local cellSize = 20
 
 local currentGrid, gridUpdate, gridRows, gridCols
@@ -30,7 +32,7 @@ local function gridYBounding(y)
 end
 
 function love.load()
-
+	simPause = false
 	--Make variables of canvas size to work with
 	local canvasWidth = love.graphics.getWidth()
 	local canvasHeight = love.graphics.getHeight()
@@ -42,6 +44,14 @@ function love.load()
 	--Create starting grid
 	currentGrid = createGrid(gridCols, gridRows)
 	
+end
+
+function love.keypressed(key)
+	if key == "p" and simPause == false then
+		simPause = true
+	elseif simPause == true then
+		simPause = false
+	end
 end
 
 function love.update(dt)
@@ -62,13 +72,34 @@ function love.update(dt)
 	
 	
 	--Update grid with particle movement
+	if simPause == false then
+		updateGrid()
+	end
+
+	
+	if love.mouse.isDown(1) then
+		gridUpdate[placeColumn][placeRow] = 1
+		
+	end
+	if love.mouse.isDown(2) then
+		gridUpdate[placeColumn][placeRow] = 0
+	end
+	--Updates the main grid to the new grid
+
+	
+
+end
+
+
+function updateGrid()
+	
 	for x = 1, gridCols do
 		for y = 1, gridRows do
 			local state = currentGrid[x][y]
-			
+				
 			if state == 1 then
 				local below = currentGrid[x][y + 1]
-				
+					
 				if below == 0 and y < gridCols then
 					gridUpdate[x][y+1] = state
 					gridUpdate[x][y] = 0
@@ -79,18 +110,13 @@ function love.update(dt)
 		end
 	end
 	
-	if love.mouse.isDown(1) then
-		gridUpdate[placeColumn][placeRow] = 1
-		
-	end
-	if love.mouse.isDown(2) then
-		gridUpdate[placeColumn][placeRow] = 0
-	end
-	--Updates the main grid to the new grid
-	currentGrid = gridUpdate
 	
+	currentGrid = gridUpdate
 end
 
+
+
+	
 
 
 function love.draw()
@@ -119,6 +145,13 @@ function love.draw()
 				love.graphics.rectangle("fill", (x-1) * cellSize, (y-1) * cellSize, cellSize, cellSize)
 			end
 		end
+	end
+	
+	
+	if simPause == false then
+		love.graphics.print("false", 0, 50)
+	elseif simPause == true then
+		love.graphics.print("true", 0, 50)
 	end
 	
 end
