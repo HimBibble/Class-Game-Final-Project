@@ -33,6 +33,7 @@ end
 
 function love.load()
 	simPause = false
+	currentSelection = 1
 	--Make variables of canvas size to work with
 	local canvasWidth = love.graphics.getWidth()
 	local canvasHeight = love.graphics.getHeight()
@@ -60,16 +61,7 @@ function love.update(dt)
 	
 	--Create a new grid to push to the main grid for updates
 	gridUpdate = createGrid(gridCols, gridRows)
-	
-	--For handling mouse snapping to grid
-	local placeColumn = math.floor(mouseX / cellSize) + 1
-	local placeRow = math.floor(mouseY / cellSize) + 1
-	
-	
-	
-	
-	
-	
+
 	
 	--Update grid with particle movement
 	if simPause == false then
@@ -77,8 +69,12 @@ function love.update(dt)
 	end
 
 	
+	--For handling mouse snapping to grid
+	local placeColumn = math.floor(mouseX / cellSize) + 1
+	local placeRow = math.floor(mouseY / cellSize) + 1
+	
 	if love.mouse.isDown(1) then
-		gridUpdate[placeColumn][placeRow] = 1
+		gridUpdate[placeColumn][placeRow] = currentSelection
 		
 	end
 	if love.mouse.isDown(2) then
@@ -92,12 +88,13 @@ end
 
 
 function updateGrid()
-	
+	--This function iterates through the array and updates the particles.
 	for x = 1, gridCols do
 		for y = 1, gridRows do
 			local state = currentGrid[x][y]
 				
 			if state == 1 then
+				--Checks the row below the current grid
 				local below = currentGrid[x][y + 1]
 					
 				if below == 0 and y < gridCols then
@@ -110,7 +107,7 @@ function updateGrid()
 		end
 	end
 	
-	
+	--Assign the current grid to the new updated grid
 	currentGrid = gridUpdate
 end
 
@@ -147,7 +144,7 @@ function love.draw()
 		end
 	end
 	
-	
+	--Render pause variable for debugging
 	if simPause == false then
 		love.graphics.print("false", 0, 50)
 	elseif simPause == true then
