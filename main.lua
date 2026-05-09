@@ -2,9 +2,12 @@ Object = require("classic")
 
 require "particle"
 
-local cellSize = 20
+cellSize = 20
 
-local currentGrid, gridUpdate, gridRows, gridCols
+currentGrid = {}
+gridUpdate = {}
+gridRows = {}
+gridCols = {}
 
 math.randomseed(os.time())
 
@@ -80,7 +83,7 @@ function love.update(dt)
 	if love.mouse.isDown(2) then
 		gridUpdate[placeColumn][placeRow] = 0
 	end
-	--Updates the main grid to the new grid
+
 
 	
 
