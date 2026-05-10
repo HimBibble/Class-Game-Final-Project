@@ -1,0 +1,82 @@
+World = {}
+World.__index = World
+
+function World.new(x, y)
+	local instance = setmetatable({}, World)
+	return instance
+end
+
+--Update the particles
+function World:updateSimulation(world)
+	local currentGrid = world
+	local nextGrid = {}
+	local rowUpdate = {}
+	local columnUpdate = {}
+	
+	
+end
+
+--Create initial grid for the world
+function World:createGrid(columns, rows)
+	local grid = {}
+	for x = 1, columns do
+		grid[x] = {}
+		for y = 1, rows do
+			grid[x][y] = 0
+		end
+	end
+	--Returns the created grid
+	return grid
+end
+
+function World:updateWorld(grid)
+	
+end
+-- function updateGrid()
+	-- --This function iterates through the array and updates the particles.
+	-- for x = 1, gridCols do
+		-- for y = 1, gridRows do
+			-- local state = currentGrid[x][y]
+				
+			-- if state == 1 then
+				-- --Checks the row below the current grid
+				-- local below = currentGrid[x][y + 1]
+					
+				-- if below == 0 and y < gridCols then
+					-- gridUpdate[x][y+1] = state
+					-- gridUpdate[x][y] = 0
+				-- else
+					-- gridUpdate[x][y] = 1
+				-- end
+			-- end
+		-- end
+	-- end
+	
+	
+	
+	
+	
+	-- --Assign the current grid to the new updated grid
+	-- currentGrid = gridUpdate
+-- end
+
+
+function xInBounds(x)
+	return x > 0 and x <= gridCols
+end
+
+function yInBounds(y)
+	return y > 0 and y <= gridRows
+end
+
+function World:drawGrid(grid)
+	local draw = grid
+	for i, row in ipairs(draw) do
+		for j, tile in ipairs(row) do
+			love.graphics.setColor(255, 255, 255)
+			love.graphics.rectangle("line", (j- 1) * cellSize, (i - 1) * cellSize, cellSize, cellSize)
+		end
+	end
+	
+end
+
