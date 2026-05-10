@@ -1,10 +1,12 @@
-Sand = Particle:extend()
+require "powder"
 
-function Sand:new(x, y)
-	local rng = math.random()
-	Sand.super.new(self, x, y, cellSize, cellSize, 255, 255, 0, 255)
-	self.density = 10
-	self.type = "sand"
-	
+Sand = {}
+Sand.__index = Sand
+setmetatable(Sand, Powder)
+
+function Sand.new(x, y)
+	local instance = setmetatable({}, Sand)
+	instance.x = x or 0
+	instance.y = y or 0
+	return instance
 end
-	
