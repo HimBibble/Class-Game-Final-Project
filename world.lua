@@ -22,15 +22,25 @@ function World:createGrid(columns, rows)
 	for x = 1, columns do
 		grid[x] = {}
 		for y = 1, rows do
-			grid[x][y] = 0
+			grid[x][y] = Air:new(x, y)
 		end
 	end
+	
+	
 	--Returns the created grid
 	return grid
 end
 
 function World:updateWorld(grid)
-	
+	local drawGrid = grid
+
+	for i, v in ipairs(drawGrid) do
+		for j, v2 in pairs(v) do
+			if v2.material ~= "air" then
+				v2:updateParticle(i, j)
+			end
+		end
+	end
 end
 -- function updateGrid()
 	-- --This function iterates through the array and updates the particles.
@@ -70,13 +80,26 @@ function yInBounds(y)
 end
 
 function World:drawGrid(grid)
-	local draw = grid
-	for i, row in ipairs(draw) do
+	local drawGrid = grid
+	
+	for i, v in ipairs(drawGrid) do
+		for j, v2 in pairs(v) do
+			if v2.material ~= "air" then
+				v2:draw(i, j)
+			end
+		end
+	end
+	
+	for i, row in ipairs(drawGrid) do
 		for j, tile in ipairs(row) do
 			love.graphics.setColor(255, 255, 255)
 			love.graphics.rectangle("line", (j- 1) * cellSize, (i - 1) * cellSize, cellSize, cellSize)
 		end
 	end
+	
+	
+	
+	
 	
 end
 
