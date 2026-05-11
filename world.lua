@@ -32,15 +32,19 @@ function World:createGrid(columns, rows)
 end
 
 function World:updateWorld(grid)
-	local drawGrid = grid
+	local grid = grid
+	
 
-	for i, v in ipairs(drawGrid) do
+	for i, v in ipairs(grid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
 				v2:updateParticle(i, j)
 			end
 		end
 	end
+	
+	
+	
 end
 -- function updateGrid()
 	-- --This function iterates through the array and updates the particles.
@@ -82,6 +86,7 @@ end
 function World:drawGrid(grid)
 	local drawGrid = grid
 	
+	
 	for i, v in ipairs(drawGrid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
@@ -90,16 +95,24 @@ function World:drawGrid(grid)
 		end
 	end
 	
-	for i, row in ipairs(drawGrid) do
-		for j, tile in ipairs(row) do
-			love.graphics.setColor(255, 255, 255)
-			love.graphics.rectangle("line", (j- 1) * cellSize, (i - 1) * cellSize, cellSize, cellSize)
+	--Draws a grid for debugging purposes
+	if debugGrid == true then
+		for i, row in ipairs(drawGrid) do
+			for j, tile in ipairs(row) do
+				love.graphics.setColor(255, 255, 255)
+				love.graphics.rectangle("line", (j- 1) * cellSize, (i - 1) * cellSize, cellSize, cellSize)
+			end
 		end
 	end
-	
-	
-	
-	
-	
 end
 
+function World:placeParticle(grid, x, y, material)
+	local grid = grid
+	local x = x
+	local y = y
+	if material == "sand" then
+		grid[x][y] = Sand:new(x, y)
+	elseif material == "air" then
+		grid[x][y] = Air:new(x, y)
+	end
+end

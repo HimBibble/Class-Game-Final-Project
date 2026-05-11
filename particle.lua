@@ -20,7 +20,8 @@ end
 
 --Function to run the particles rules
 function Particle:updateParticle()
-	Particle:gravity(5, 5)
+	print("updating particle!")
+	--Particle:gravity(self)
 end
 --Draws particle
 function Particle:draw(x, y)
@@ -30,25 +31,24 @@ function Particle:draw(x, y)
 	love.graphics.rectangle("fill", (self.x-1) * cellSize, (self.y-1) * cellSize, cellSize, cellSize)
 end
 --Applies gravity to particle
-function Particle:gravity(x, y)
+function Particle:gravity()
 	self.x = x
 	self.y = y
 	local check
 	local below = currentGrid[self.x][self.y + 1]
 	
-	if self.checkDown(self.x, self.y) ~= nil and self.density > below.density then
-		currentGrid[self.x][self.y] = below
-		below.y = below.y - 1
-		self.y = self.y + 1
-		currentGrid[self.x][self.y] = self
-	end
+	-- if self:checkDown() ~= nil and self.density > below.density then
+		-- currentGrid[self.x][self.y] = below
+		-- below.y = below.y - 1
+		-- self.y = self.y + 1
+		-- currentGrid[self.x][self.y] = self
+	-- end
 end
 
 --CHECK DIRECTIONS--
 
-function Particle:checkDown(x, y)
-	self.x = x
-	self.y = y
+function Particle:checkDown(self)
+	
 	local check = currentGrid[self.x][self.y+1]
 	if check ~= nil then
 		check = currentGrid[self.x][self.y+1]["material"]
