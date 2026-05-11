@@ -38,7 +38,7 @@ function World:updateWorld(grid)
 	for i, v in ipairs(grid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
-				v2:updateParticle(i, j)
+				v2:updateParticle(i, j, currentGrid)
 			end
 		end
 	end
@@ -46,33 +46,7 @@ function World:updateWorld(grid)
 	
 	
 end
--- function updateGrid()
-	-- --This function iterates through the array and updates the particles.
-	-- for x = 1, gridCols do
-		-- for y = 1, gridRows do
-			-- local state = currentGrid[x][y]
-				
-			-- if state == 1 then
-				-- --Checks the row below the current grid
-				-- local below = currentGrid[x][y + 1]
-					
-				-- if below == 0 and y < gridCols then
-					-- gridUpdate[x][y+1] = state
-					-- gridUpdate[x][y] = 0
-				-- else
-					-- gridUpdate[x][y] = 1
-				-- end
-			-- end
-		-- end
-	-- end
-	
-	
-	
-	
-	
-	-- --Assign the current grid to the new updated grid
-	-- currentGrid = gridUpdate
--- end
+
 
 
 function xInBounds(x)
