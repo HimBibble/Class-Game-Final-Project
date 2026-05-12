@@ -34,16 +34,20 @@ end
 function World:updateWorld(grid)
 	local grid = grid
 	
-	for i, v in ipairs(grid) do
-		for j, v2 in pairs(v) do
-			v2.cannotSimulate = false		
-		end
-	end
+	
 
 	for i, v in ipairs(grid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
 				v2:updateParticle(i, j, currentGrid)
+			end
+		end
+	end
+	
+	for i, v in ipairs(grid) do
+		for j, v2 in pairs(v) do
+			if v2 ~= 0 then
+				v2.canUpdate = true
 			end
 		end
 	end

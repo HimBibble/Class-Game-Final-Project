@@ -14,7 +14,7 @@ function Particle:new(x,y,r,g,b,a)
 	self.b = b or 0
 	self.a = a or 0
 	self.material = "particle"
-	self.cannotSimulate = false
+	self.canUpdate = false
 	currentGrid[self.x][self.y] = self
 end
 
@@ -23,9 +23,9 @@ function Particle:updateParticle(x, y, currentGrid)
 	local grid = currentGrid
 	self.x = x
 	self.y = y
-	if self.cannotSimulate == false then
+	if self.canUpdate == true then
 		Particle:gravity(self.x, self.y, self.density)
-		self.cannotSimulate = true
+		self.canUpdate = false
 	end
 	
 	
@@ -53,6 +53,7 @@ function Particle:gravity(x, y, density)
 		self.y = self.y + 1
 		currentGrid[self.x][self.y] = self
 	end
+	
 end
 
 --CHECK DIRECTIONS--

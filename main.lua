@@ -7,7 +7,7 @@ require "air"
 
 
 cellSize = 20
-updateNum = 0
+local updateNum = 0
 currentGrid = {}
 local material = "air"
 local updateRate = 0
@@ -33,18 +33,16 @@ function love.load()
 
 end
 
-function love.update()
-	-- mouseX, mouseY = love.mouse.getPosition()
-	
-	-- mouseCellX = math.floor(mouseX / cellSize) + 1
-	-- mouseCellY = math.floor(mouseY / cellSize) + 1
-	
 
-	if gamePaused == false then
+function love.update(dt)
+	
+	updateNum = updateNum + dt
+	
+	if updateNum >= 0 and gamePaused == false then
 		world:updateWorld(currentGrid)
 	end
-	
-	
+
+	updateNum = 0
 	
 	local mouseX, mouseY = love.mouse.getPosition()
 	
@@ -71,6 +69,7 @@ function love.update()
 	elseif love.keyboard.isDown(2) then
 		material = "sand"
 	end
+	
 	
 	
 end
