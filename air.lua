@@ -14,6 +14,6 @@ function Air:new(x, y)
 	return instance
 end
 
-function Air:draw()
-
+function Air:draw(self)
+	love.graphics.setColor(0, 25, 0, 255)
 end

@@ -10,7 +10,8 @@ cellSize = 20
 updateNum = 0
 currentGrid = {}
 local material = "air"
-
+local updateRate = 0
+local gamePaused = false
 debugGrid = false
 
 
@@ -32,15 +33,17 @@ function love.load()
 
 end
 
-function love.update(dt)
+function love.update()
 	-- mouseX, mouseY = love.mouse.getPosition()
 	
 	-- mouseCellX = math.floor(mouseX / cellSize) + 1
 	-- mouseCellY = math.floor(mouseY / cellSize) + 1
 	
+
+	if gamePaused == false then
+		world:updateWorld(currentGrid)
+	end
 	
-	
-	world:updateWorld(currentGrid)
 	
 	
 	local mouseX, mouseY = love.mouse.getPosition()
@@ -59,6 +62,8 @@ function love.update(dt)
 		debugGrid = false
 	end
 	
+	--Pause Simulation
+	
 	
 	--Material Selection
 	if love.keyboard.isDown(1) then
@@ -66,6 +71,8 @@ function love.update(dt)
 	elseif love.keyboard.isDown(2) then
 		material = "sand"
 	end
+	
+	
 end
 
 function love.draw()
@@ -73,4 +80,13 @@ function love.draw()
 	
 	love.graphics.setColor(255, 255, 30)
 	love.graphics.print("Current Material is: " .. material, 0, 0, 0, 2, 2)
+end
+
+function love.keypressed(key)
+	if key == "p" and gamePaused == false then
+		gamePaused = true
+	elseif key == "p" and gamePaused == true then
+		gamePaused = false
+	end
+		
 end

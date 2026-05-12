@@ -23,31 +23,35 @@ function Particle:updateParticle(x, y, currentGrid)
 	local grid = currentGrid
 	self.x = x
 	self.y = y
-	--print("updating particle!")
-	Particle:gravity(self.x, self.y)
+	if self.cannotSimulate == false then
+		Particle:gravity(self.x, self.y, self.density)
+		self.cannotSimulate = true
+	end
+	
+	
 end
 --Draws particle
 function Particle:draw(x, y)
 	self.x = x 
 	self.y = y
-	love.graphics.setColor(self.r, self.g, self.b, 255)
+	love.graphics.setColor(25, 25, 25, 255)
 	love.graphics.rectangle("fill", (self.x-1) * cellSize, (self.y-1) * cellSize, cellSize, cellSize)
 end
 
 
 --Applies gravity to particle
-function Particle:gravity(x, y)
+function Particle:gravity(x, y, density)
 	local grid = currentGrid
+	self.density = density
 	self.x = x
 	self.y = y
 	local below = grid[self.x][self.y + 1]
 	local check
-	print("GRAVITY IS BEING RUN!")
-	if Particle:checkDown() ~= nil and self.density > below.density then
-		-- currentGrid[self.x][self.y] = below
-		-- below.y = below.y - 1
-		-- self.y = self.y + 1
-		-- currentGrid[self.x][self.y] = self
+	if Particle:checkDown(self.x, self.y) ~= nil and self.density > below.density then
+		currentGrid[self.x][self.y] = below
+		below.y = below.y - 1
+		self.y = self.y + 1
+		currentGrid[self.x][self.y] = self
 	end
 end
 

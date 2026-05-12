@@ -34,6 +34,11 @@ end
 function World:updateWorld(grid)
 	local grid = grid
 	
+	for i, v in ipairs(grid) do
+		for j, v2 in pairs(v) do
+			v2.cannotSimulate = false		
+		end
+	end
 
 	for i, v in ipairs(grid) do
 		for j, v2 in pairs(v) do
@@ -45,7 +50,9 @@ function World:updateWorld(grid)
 	
 	
 	
+	
 end
+
 
 
 
