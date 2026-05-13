@@ -35,7 +35,7 @@ function World:updateWorld(grid)
 	local grid = grid
 	
 	
-
+	--Iterates through the grid and updates each particle as needed
 	for i, v in ipairs(grid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
@@ -47,6 +47,7 @@ function World:updateWorld(grid)
 	
 end
 
+--Makes every particle able to update after moving
 function World:resetCanUpdate(grid)
 	local grid = grid
 	for i, v in ipairs(grid) do
@@ -63,7 +64,7 @@ function World:resetCanUpdate(grid)
 end
 
 
-
+--These two functions check if the value is in bounds
 function xInBounds(x)
 	return x > 0 and x <= gridCols
 end
@@ -75,7 +76,7 @@ end
 function World:drawGrid(grid)
 	local drawGrid = grid
 	
-	
+	--Turns all of the existing grid into air
 	for i, v in ipairs(drawGrid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
@@ -95,10 +96,14 @@ function World:drawGrid(grid)
 	end
 end
 
+
+--Handles the placement of particles in the world
 function World:placeParticle(grid, x, y, material)
 	local grid = grid
 	local x = x
 	local y = y
+	
+	--Instances new particles based on selection
 	if material == "sand" then
 		grid[x][y] = Sand:new(x, y)
 	elseif material == "air" then

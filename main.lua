@@ -1,7 +1,7 @@
 require "world"
 
 
-
+--Particles
 require "sand"
 require "air"
 require "gravel"
@@ -28,6 +28,7 @@ function love.load()
 	gridRows = canvasWidth / cellSize
 	gridColumns = canvasHeight / cellSize
 
+	--Make world based on size of canvas
 	currentGrid = world:createGrid(gridColumns, gridRows)
 	
 	
@@ -37,12 +38,11 @@ end
 
 function love.update(dt)
 	
+	--In case I need a clock
 	updateNum = updateNum + dt
-	
-	
-
 	updateNum = 0
 	
+	--Get mouse stuff for placing particles
 	local mouseX, mouseY = love.mouse.getPosition()
 	
 	local mouseCellX = math.floor(mouseX / cellSize) + 1
@@ -71,30 +71,36 @@ function love.update(dt)
 		material = "gravel"
 	end
 	
+	--Basically the game loop
 	if updateNum >= 0 and gamePaused == false then
 		world:updateWorld(currentGrid)
 		world:resetCanUpdate(currentGrid)
-		
-		
 	end
-	if love.keyboard.isDown("t") then
-		
-	end
+
 	
 end
 
 function love.draw()
+	--Draws the world grid
 	world:drawGrid(currentGrid)
 	
 	love.graphics.setColor(255, 255, 30)
+	--Shows the player what material they have selected
 	love.graphics.print("Current Material is: " .. material, 0, 0, 0, 2, 2)
 end
 
+--Handles the input for pausing the game
 function love.keypressed(key)
 	if key == "p" and gamePaused == false then
 		gamePaused = true
 	elseif key == "p" and gamePaused == true then
 		gamePaused = false
+	end
+		
+end
+function love.keypressed(key)
+	if key == "c" and gamePaused == false then
+		currentGrid = world:createGrid(gridColumns, gridRows)
 	end
 		
 end
