@@ -12,6 +12,7 @@ function Powder:gravity(x, y, density, self)
 	self.density = density
 	self.x = x
 	self.y = y
+	self.type = "powder"
 	local below = currentGrid[self.x][self.y + 1]
 	local belowL = currentGrid[self.x - 1][self.y + 1]
 	local belowR = currentGrid[self.x + 1][self.y + 1]

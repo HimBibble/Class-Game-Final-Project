@@ -110,5 +110,7 @@ function World:placeParticle(grid, x, y, material)
 		grid[x][y] = Air:new(x, y)
 	elseif material == "gravel" then
 		grid[x][y] = Gravel:new(x, y)
+	elseif material == "water" then
+		grid[x][y] = Water:new(x, y)
 	end
 end

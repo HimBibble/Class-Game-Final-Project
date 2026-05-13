@@ -5,6 +5,7 @@ require "world"
 require "sand"
 require "air"
 require "gravel"
+require "water"
 
 
 cellSize = 20
@@ -69,6 +70,8 @@ function love.update(dt)
 		material = "sand"
 	elseif love.keyboard.isDown(3) then
 		material = "gravel"
+	elseif love.keyboard.isDown(4) then
+		material = "water"
 	end
 	
 	--Basically the game loop

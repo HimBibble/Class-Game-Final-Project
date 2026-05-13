@@ -79,7 +79,7 @@ function Particle:checkDownLeft(x, y)
 	self.y = y
 	local check = grid[self.x - 1][self.y+1]
 	if check ~= nil then
-		check = grid[self.x][self.y+1]["material"]
+		check = grid[self.x - 1][self.y+1]["material"]
 	end
 	return check
 end
@@ -90,7 +90,29 @@ function Particle:checkDownRight(x, y)
 	self.y = y
 	local check = grid[self.x + 1][self.y+1]
 	if check ~= nil then
-		check = grid[self.x][self.y+1]["material"]
+		check = grid[self.x + 1][self.y+1]["material"]
+	end
+	return check
+end
+
+function Particle:checkRight(x, y)
+	local grid = currentGrid
+	self.x = x
+	self.y = y
+	local check = grid[self.x + 1][self.y]
+	if check ~= nil then
+		check = grid[self.x + 1][self.y]["material"]
+	end
+	return check
+end
+
+function Particle:checkLeft(x, y)
+	local grid = currentGrid
+	self.x = x
+	self.y = y
+	local check = grid[self.x - 1][self.y]
+	if check ~= nil then
+		check = grid[self.x - 1][self.y]["material"]
 	end
 	return check
 end
