@@ -4,6 +4,7 @@ require "world"
 
 require "sand"
 require "air"
+require "gravel"
 
 
 cellSize = 20
@@ -38,9 +39,7 @@ function love.update(dt)
 	
 	updateNum = updateNum + dt
 	
-	if updateNum >= 0 and gamePaused == false then
-		world:updateWorld(currentGrid)
-	end
+	
 
 	updateNum = 0
 	
@@ -68,9 +67,19 @@ function love.update(dt)
 		material = "air"
 	elseif love.keyboard.isDown(2) then
 		material = "sand"
+	elseif love.keyboard.isDown(3) then
+		material = "gravel"
 	end
 	
-	
+	if updateNum >= 0 and gamePaused == false then
+		world:updateWorld(currentGrid)
+		world:resetCanUpdate(currentGrid)
+		
+		
+	end
+	if love.keyboard.isDown("t") then
+		
+	end
 	
 end
 

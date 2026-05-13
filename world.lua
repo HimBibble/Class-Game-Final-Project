@@ -39,24 +39,28 @@ function World:updateWorld(grid)
 	for i, v in ipairs(grid) do
 		for j, v2 in pairs(v) do
 			if v2.material ~= "air" then
-				v2:updateParticle(i, j, currentGrid)
+				local self = currentGrid[i][j]
+				v2:updateParticle(i, j, currentGrid, self)
 			end
 		end
 	end
-	
-	for i, v in ipairs(grid) do
-		for j, v2 in pairs(v) do
-			if v2 ~= 0 then
-				v2.canUpdate = true
-			end
-		end
-	end
-	
-	
-	
 	
 end
 
+function World:resetCanUpdate(grid)
+	local grid = grid
+	for i, v in ipairs(grid) do
+		for j, v2 in pairs(v) do
+			if v2 ~= 0 then
+				if v2.material ~= "air" then
+				end
+				
+				v2.canUpdate = true
+				
+			end
+		end
+	end
+end
 
 
 
@@ -99,5 +103,7 @@ function World:placeParticle(grid, x, y, material)
 		grid[x][y] = Sand:new(x, y)
 	elseif material == "air" then
 		grid[x][y] = Air:new(x, y)
+	elseif material == "gravel" then
+		grid[x][y] = Gravel:new(x, y)
 	end
 end
