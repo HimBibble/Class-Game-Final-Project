@@ -65,11 +65,13 @@ end
 
 
 --These two functions check if the value is in bounds
-function xInBounds(x)
-	return x > 0 and x <= gridCols
+function World:xInBounds(x)
+	if x > 0 and x <= gridColumns then
+		return true
+	end
 end
 
-function yInBounds(y)
+function World:yInBounds(y)
 	return y > 0 and y <= gridRows
 end
 
